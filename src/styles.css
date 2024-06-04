@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.fade-me-out.htmx-swapping {
+  opacity: 0;
+  transition: opacity .2s ease-out;
+}
+
+.htmx-request .icon{
+  display: none;
+}
+
+.htmx-request .loading-spinner {
+  display: block;
+}
