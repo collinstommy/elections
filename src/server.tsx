@@ -13,7 +13,7 @@ app.get("/", (c) => {
         <div class="max-w-[720px]">
           <h1 class="py-3 text-3xl font-bold">Cork Tally Results</h1>
           <div class="flex flex-col gap-3">
-            <a class="btn btn-sm" href="/kanturk">
+            <a class="btn btn-sm underline" href="/kanturk">
               Kanturk
             </a>
           </div>
