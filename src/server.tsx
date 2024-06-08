@@ -51,7 +51,7 @@ const results = {
   midleton: {
     name: "Midleton",
     path: "midleton",
-    url: "https://docs.google.com/spreadsheets/d/1i7u-6WTNrfhEo6D6FhOCz04mPHorcedS/edit?usp=sharing&ouid=102172067420936397998&rtpof=true&sd=true",
+    url: "https://docs.google.com/spreadsheets/d/12Pjl5qIUNiSRyn2OA-_qURC1bjxerd_T/edit?usp=sharing&ouid=102172067420936397998&rtpof=true&sd=true",
   },
   cobh: {
     name: "Cobh",
