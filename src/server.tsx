@@ -20,18 +20,18 @@ const results = {
   },
   bandon: {
     name: "Bandon Kinsale",
-    url: "https://docs.google.com/spreadsheets/d/1dH1soes_hLZjBt1vn0UiHBLwY3MjN6KB/edit?usp=sharing&ouid=102172067420936397998&rtpof=true&sd=true",
+    url: "https://docs.google.com/spreadsheets/d/1rJK3ODhChauwXFG0UyX6uydnu4PcuesY/edit#gid=100716913",
     path: "bandon",
   },
   bantry: {
     name: "Bantry - West Cork",
-    url: "https://docs.google.com/spreadsheets/d/17LiXhte1K0snD1i2g73kKgseK3ti2O4E/edit?usp=sharing&ouid=102172067420936397998&rtpof=true&sd=true",
+    url: "https://docs.google.com/spreadsheets/d/1rJK3ODhChauwXFG0UyX6uydnu4PcuesY/edit#gid=1968722781",
     path: "bantry",
   },
   skibbereen: {
     name: "Skibbereen",
     path: "skibbereen",
-    url: "https://docs.google.com/spreadsheets/d/1QjdBonEMvLiIb0KQF3tcfg7v0lE3PaZZ/edit?usp=sharing&ouid=102172067420936397998&rtpof=true&sd=true",
+    url: "https://docs.google.com/spreadsheets/d/1rJK3ODhChauwXFG0UyX6uydnu4PcuesY/edit#gid=354573855",
   },
   fermoy: {
     name: "Fermoy",
