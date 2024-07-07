@@ -1,18 +1,37 @@
 import PocketBase from "pocketbase";
-import { TypedPocketBase } from "../pocketbase-types";
+import {
+  CountsResponse,
+  ElectionsResponse,
+  TypedPocketBase,
+} from "../pocketbase-types";
 
-const pb = new PocketBase(
-  "https://data.irelandelections.com",
-) as TypedPocketBase;
+function api() {
+  return new PocketBase("https://data.irelandelections.com") as TypedPocketBase;
+}
 
 export const getAllElections = async () => {
-  return await pb.collection("elections").getFullList({
+  return api().collection("elections").getFullList({
     sort: "-created",
   });
 };
 
+export const getRecentElection = async () => {
+  return api().collection("elections").getFirstListItem("", {
+    sort: "-created",
+  });
+};
+
+export const getCountsForElection = async (electionId: string) => {
+  console.log({ electionId });
+  return api()
+    .collection("counts")
+    .getFullList({
+      filter: `election = '${electionId}'`,
+    });
+};
+
 export const getAllCounts = async () => {
-  return pb.collection("counts").getFullList({
+  return api().collection("counts").getFullList({
     sort: "-created",
   });
 };

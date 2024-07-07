@@ -3,87 +3,44 @@ import { serveStatic } from "hono/cloudflare-workers";
 // @ts-expect-error - cloudflare
 import manifest from "__STATIC_CONTENT_MANIFEST";
 import { app } from "./app";
-import { getAllCounts, getAllElections } from "./api";
-import { ElectionResults } from "./components/ElectionResults";
+import {
+  getAllCounts,
+  getAllElections,
+  getCountsForElection,
+  getRecentElection,
+} from "./api";
+import { Main } from "./components/Main";
 
 app.get("/static/*", serveStatic({ root: "./", manifest }));
 
-const results = {
-  kanturk: {
-    name: "Kanturk",
-    url: "https://docs.google.com/spreadsheets/d/1dZXrrreBzXJldDQeAOknviItV0w0YmAC_Y4Ektn1_-Y/edit#gid=282497095",
-    path: "kanturk",
-  },
-  mallow: {
-    name: "Mallow",
-    url: "https://docs.google.com/spreadsheets/d/1szI_6aqCn4g2p_-WZtRJzrltyR5XH6_k/edit?usp=sharing&ouid=102172067420936397998&rtpof=true&sd=true",
-    path: "mallow",
-  },
-  bandon: {
-    name: "Bandon Kinsale",
-    url: "https://docs.google.com/spreadsheets/d/1rJK3ODhChauwXFG0UyX6uydnu4PcuesY/edit#gid=100716913",
-    path: "bandon",
-  },
-  bantry: {
-    name: "Bantry - West Cork",
-    url: "https://docs.google.com/spreadsheets/d/1rJK3ODhChauwXFG0UyX6uydnu4PcuesY/edit#gid=1968722781",
-    path: "bantry",
-  },
-  skibbereen: {
-    name: "Skibbereen",
-    path: "skibbereen",
-    url: "https://docs.google.com/spreadsheets/d/1rJK3ODhChauwXFG0UyX6uydnu4PcuesY/edit#gid=354573855",
-  },
-  fermoy: {
-    name: "Fermoy",
-    path: "fermoy",
-    url: "https://docs.google.com/spreadsheets/d/1rfSUytLELYMlFB36wDOhUSBkQZwf00t8/edit?usp=sharing&ouid=102172067420936397998&rtpof=true&sd=true",
-  },
-  macroom: {
-    name: "Macroom",
-    path: "macroom",
-    url: "https://docs.google.com/spreadsheets/d/1CHpjrT3tzvQd2jvGrScTgdgwlOMavcaR/edit?usp=sharing&ouid=102172067420936397998&rtpof=true&sd=true",
-  },
-  carrigaline: {
-    name: "Carrigaline",
-    path: "carrigaline",
-    url: "https://docs.google.com/spreadsheets/d/1zeoVKTFdv4GTEq4qMHCez_1K_T05AmSE/edit?usp=sharing&ouid=102172067420936397998&rtpof=true&sd=true",
-  },
-  midleton: {
-    name: "Midleton",
-    path: "midleton",
-    url: "https://docs.google.com/spreadsheets/d/12Pjl5qIUNiSRyn2OA-_qURC1bjxerd_T/edit?usp=sharing&ouid=102172067420936397998&rtpof=true&sd=true",
-  },
-  cobh: {
-    name: "Cobh",
-    path: "cobh",
-    url: "https://docs.google.com/spreadsheets/d/1lxMpbiYQh38IFf35zCH11k69NYzZTUJu/edit?usp=sharing&ouid=102172067420936397998&rtpof=true&sd=true",
-  },
-};
-
 app.get("/", async (c) => {
+  const election = await getRecentElection();
+  const countForElection = await getCountsForElection(election.id);
+
+  return c.html(
+    <Main
+      elections={[election]}
+      counts={countForElection}
+      footer={
+        <a href="/all" class="link">
+          View past tallys
+        </a>
+      }
+    />,
+  );
+});
+
+app.get("/all", async (c) => {
   const elections = await getAllElections();
   const counts = await getAllCounts();
 
-  return c.html(
-    <Layout>
-      <div class="flex justify-center p-4">
-        <div class="max-w-[720px]">
-          <h1 class="py-3 text-3xl font-bold">Cork Tally Results</h1>
-          <ElectionResults elections={elections} counts={counts} />
-        </div>
-      </div>
-    </Layout>,
-  );
+  return c.html(<Main elections={elections} counts={counts} />);
 });
 
 app.get("/favicon.ico", (c) => c.redirect("/static/favicon.ico"));
 
-app.get("/:location", (c) => {
-  const location = c.req.param("location") as keyof typeof results;
-  console.log({ location });
-  const result = results[location];
-  return c.redirect(result.url);
+app.get("/:any", (c) => {
+  return c.redirect("/");
 });
 
 export default app;
