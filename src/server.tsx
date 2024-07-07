@@ -1,4 +1,3 @@
-import { Layout } from "./shared/Layout";
 import { serveStatic } from "hono/cloudflare-workers";
 // @ts-expect-error - cloudflare
 import manifest from "__STATIC_CONTENT_MANIFEST";
@@ -8,6 +7,7 @@ import {
   getAllElections,
   getCountsForElection,
   getRecentElection,
+  resetCache,
 } from "./api";
 import { Main } from "./components/Main";
 
@@ -38,6 +38,11 @@ app.get("/all", async (c) => {
 });
 
 app.get("/favicon.ico", (c) => c.redirect("/static/favicon.ico"));
+
+app.get("/reset-cache", (c) => {
+  resetCache();
+  return c.json({ message: "Cache reset" });
+});
 
 app.get("/:any", (c) => {
   return c.redirect("/");
