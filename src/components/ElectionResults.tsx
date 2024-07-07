@@ -5,7 +5,7 @@ const Count: FC<{ counts: CountsResponse[] }> = ({ counts }) => {
   return (
     <div class="flex flex-col gap-3">
       {counts.map((count) => (
-        <a class="btn btn-sm btn-block" href={count.slug} target="_blank">
+        <a class="btn btn-sm btn-block" href={count.url} target="_blank">
           {count.location}
         </a>
       ))}
