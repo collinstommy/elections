@@ -9,13 +9,15 @@
     "start": "concurrently \"npm:tailwind:watch\" \"npm:dev\" \"npm:client:watch\"",
     "tailwind": "tailwindcss -i ./src/styles.css -o ./assets/static/styles.css",
     "tailwind:watch": "tailwindcss -i ./src/styles.css -o ./assets/static/styles.css --watch",
-    "client:watch": "bun build ./src/client/index.js --outdir ./assets/static --watch"
+    "client:watch": "bun build ./src/client/index.js --outdir ./assets/static --watch",
+    "typegen": "pocketbase-typegen --env"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.1.8",
     "clsx": "^2.0.0",
     "drizzle-orm": "^0.31.0",
-    "hono": "^4.2.7"
+    "hono": "^4.2.7",
+    "pocketbase": "^0.21.3"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20231016.0",
@@ -29,6 +31,7 @@
     "daisyui": "^4.7.2",
     "drizzle-kit": "^0.21.1",
     "eslint": "^8.50.0",
+    "pocketbase-typegen": "^1.2.1",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.4",
     "tailwindcss": "^3.3.3",

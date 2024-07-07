@@ -3,7 +3,8 @@ import { serveStatic } from "hono/cloudflare-workers";
 // @ts-expect-error - cloudflare
 import manifest from "__STATIC_CONTENT_MANIFEST";
 import { app } from "./app";
-import { name } from "drizzle-orm";
+import { getAllCounts, getAllElections } from "./api";
+import { ElectionResults } from "./components/ElectionResults";
 
 app.get("/static/*", serveStatic({ root: "./", manifest }));
 
@@ -60,31 +61,27 @@ const results = {
   },
 };
 
-app.get("/", (c) => {
+app.get("/", async (c) => {
+  const elections = await getAllElections();
+  const counts = await getAllCounts();
+
   return c.html(
     <Layout>
       <div class="flex justify-center p-4">
         <div class="max-w-[720px]">
           <h1 class="py-3 text-3xl font-bold">Cork Tally Results</h1>
-          <div class="flex flex-col gap-3">
-            {Object.values(results).map((result) => (
-              <a
-                class="btn btn-sm underline"
-                href={result.path}
-                target="_blank"
-              >
-                {result.name}
-              </a>
-            ))}
-          </div>
+          <ElectionResults elections={elections} counts={counts} />
         </div>
       </div>
     </Layout>,
   );
 });
 
+app.get("/favicon.ico", (c) => c.redirect("/static/favicon.ico"));
+
 app.get("/:location", (c) => {
   const location = c.req.param("location") as keyof typeof results;
+  console.log({ location });
   const result = results[location];
   return c.redirect(result.url);
 });
