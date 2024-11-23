@@ -13,20 +13,26 @@ import { Main } from "./components/Main";
 
 app.get("/static/*", serveStatic({ root: "./", manifest }));
 
-app.get("/", async (c) => {
-  const election = await getRecentElection();
-  const countForElection = await getCountsForElection(election.id);
+// app.get("/", async (c) => {
+//   const election = await getRecentElection();
+//   const countForElection = await getCountsForElection(election.id);
 
-  return c.html(
-    <Main
-      elections={[election]}
-      counts={countForElection}
-      footer={
-        <a href="/all" class="link">
-          View past tallys
-        </a>
-      }
-    />,
+//   return c.html(
+//     <Main
+//       elections={[election]}
+//       counts={countForElection}
+//       footer={
+//         <a href="/all" class="link">
+//           View past tallys
+//         </a>
+//       }
+//     />,
+//   );
+// });
+
+app.get("/", () => {
+  return fetch(
+    "https://collinstommy.notion.site/Elections-147961a9aed88075b0f0ce84c6b60c41",
   );
 });
 
